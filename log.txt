@@ -1,0 +1,6 @@
+Successful attempt by [1] to enter the Robotics Team Room, at Wed Feb 08 02:27:13 2017
+Successful attempt by [2] to enter the Robotics Team Room, at Wed Feb 08 02:27:21 2017
+Unsuccessful attempt by [0] to enter the Robotics Team Room, at Wed Feb 08 02:27:25 2017
+Unsuccessful attempt by [0] to enter the Robotics Team Room, at Wed Feb 08 02:32:15 2017
+Unsuccessful attempt by [0] to enter the Robotics Team Room, at Wed Feb 08 02:32:26 2017
+Unsuccessful attempt by [0] to enter the Robotics Team Room, at Wed Feb 08 02:33:02 2017

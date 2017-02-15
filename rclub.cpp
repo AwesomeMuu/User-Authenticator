@@ -49,15 +49,24 @@ public:
 }; //end of class*****
 
 // Validates the person trying to enter is member
-bool isValid(vector<Member> &vector_records, string input){
+void isValid(vector<Member> &vector_records, string input){
+	GPIOClass* gpio = new GPIOClass("20");
+  gpio->export_gpio();
+  gpio->setdir_gpio("out");
+
+
 	for(unsigned i = 0; i < vector_records.size(); ++i){
 		if(vector_records[i].getMemberId() == input || vector_records[i].getMemberName() == input){
 			// Door will open
-			return true;
+			gpio->setval_gpio("1");
+			usleep(2000000);
+			gpio->setval_gpio("0");
+
+			delete gpio;
+			gpio = 0;
 		}
 	}
-	// Door won't open
-	return false;
+	gpio->setval_gpio("0");
 }
 
 // Returns the outcome of the attempt
@@ -108,17 +117,7 @@ int authentication(string swipe){
 
 	// Actual authentication
 
-  GPIOClass* gpio = new GPIOClass("20");
-  gpio->export_gpio();
-  gpio->setdir_gpio("out");
 
-	while(1){
-	gpio->setval_gpio("1");
-	usleep(500000);
-	gpio->setval_gpio("0");
-	usleep(500000);
-
-	}
 
 
 	// Actual authintication

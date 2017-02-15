@@ -3,11 +3,16 @@
 #include <fstream>
 #include <string>
 #include <ctime>
+#include <stdlib.h>
+#include "GPIOClass.h"
+#include <unistd.h>
+
 
 // TODO:  Make a GPOI class to use for the RPi (http://www.hertaville.com/introduction-to-accessing-the-raspberry-pis-gpio-in-c.html)
 // #include "GPIOClass.h"
 
 
+//using robotics_members.txt file to save the members of the robotics team.
 using namespace std;
 
 class Member{
@@ -97,23 +102,53 @@ void populateClub(vector<Member> &vector_records){
 	records.close();
 }
 
-int main(){
+int authentication(string swipe){
 	vector<Member> club;
-	string swipeReader = "";
 	string run = "1";
 
 	// Actual authentication
-	while(run != "0"){
 
+  GPIOClass* gpio = new GPIOClass("20");
+  gpio->export_gpio();
+  gpio->setdir_gpio("out");
+
+	while(1){
+	gpio->setval_gpio("1");
+	usleep(500000);
+	gpio->setval_gpio("0");
+	usleep(500000);
+
+	}
+
+
+	// Actual authintication
 		populateClub(club);
-		for (int i = 0; i < club.size(); i++){
-			club[i].printInformation();
-		}
-		getline(cin, swipeReader);
-		log(swipeReader, isValid(club, swipeReader));
+		getline(cin, swipe);
+		log(swipe, isValid(club, swipe));
+
+		// for (int i = 0; i < club.size(); i++){
+		// 	club[i].printInformation();
+		// }
 
 		// Reset the input for security and keep "run" for exit purpose.
 		run = swipeReader;
 		swipeReader = "";
-	}
+
+}
+
+
+int main(){
+
+  while(1){
+    ifstream myfile("/dev/tty1");
+    string line;
+    while (! myfile.eof() ){
+      authentication(line);
+      getline (myfile,line);
+    //   cout << i << ":" << r << ":" << line << endl;
+    //   i++;
+    }
+    // r++;
+    myfile.close();
+  }
 }

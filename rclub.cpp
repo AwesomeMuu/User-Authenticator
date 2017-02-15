@@ -49,24 +49,27 @@ public:
 }; //end of class*****
 
 // Validates the person trying to enter is member
-void isValid(vector<Member> &vector_records, string input){
-	GPIOClass* gpio = new GPIOClass("20");
-  gpio->export_gpio();
-  gpio->setdir_gpio("out");
-
+bool isValid(vector<Member> &vector_records, string input){
+	cout << input << endl;
+	if(input == "")return 0;
 
 	for(unsigned i = 0; i < vector_records.size(); ++i){
-		if(vector_records[i].getMemberId() == input || vector_records[i].getMemberName() == input){
+		if(vector_records[i].getMemberId() == input || vector_records[i].getMemberName() == input && input != ""){
+
 			// Door will open
+			GPIOClass* gpio = new GPIOClass("20");
+			gpio->export_gpio();
+			gpio->setdir_gpio("out");
 			gpio->setval_gpio("1");
 			usleep(2000000);
 			gpio->setval_gpio("0");
 
 			delete gpio;
-			gpio = 0;
+			gpio = NULL;
+		return 1;
 		}
 	}
-	gpio->setval_gpio("0");
+	return 0;
 }
 
 // Returns the outcome of the attempt
@@ -109,45 +112,30 @@ void populateClub(vector<Member> &vector_records){
 		vector_records.push_back(Member(data));
 	}
 	records.close();
-}
 
-int authentication(string swipe){
-	vector<Member> club;
-	string run = "1";
-
-	// Actual authentication
-
-
-
-
-	// Actual authintication
-		populateClub(club);
-		getline(cin, swipe);
-		log(swipe, isValid(club, swipe));
-
-		// for (int i = 0; i < club.size(); i++){
-		// 	club[i].printInformation();
-		// }
-
-		// Reset the input for security and keep "run" for exit purpose.
-		run = swipeReader;
-		swipeReader = "";
 
 }
-
 
 int main(){
 
-  while(1){
-    ifstream myfile("/dev/tty1");
-    string line;
-    while (! myfile.eof() ){
-      authentication(line);
-      getline (myfile,line);
-    //   cout << i << ":" << r << ":" << line << endl;
-    //   i++;
-    }
-    // r++;
-    myfile.close();
-  }
+	// Actual authintication
+	vector<Member> club;
+
+	while(1){
+
+		ifstream myfile("/dev/tty1");
+		string swipe;
+
+		while (! myfile.eof() ){
+			populateClub(club);
+//			for (size_t i = 0; i < club.size(); i++) {
+//			std::cout << i << "# populate: " << club[i].getMemberName() << " && " << club[i].getMemberId() << '\n';
+//			}
+
+			getline (myfile,swipe);
+			log(swipe, isValid(club, swipe));
+			swipe = "";
+		}
+		myfile.close();
+	}
 }

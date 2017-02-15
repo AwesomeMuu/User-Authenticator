@@ -51,8 +51,8 @@ public:
 // Validates the person trying to enter is member
 void isValid(vector<Member> &vector_records, string input){
 	GPIOClass* gpio = new GPIOClass("20");
-  gpio->export_gpio();
-  gpio->setdir_gpio("out");
+	gpio->export_gpio();
+	gpio->setdir_gpio("out");
 
 
 	for(unsigned i = 0; i < vector_records.size(); ++i){
@@ -111,43 +111,26 @@ void populateClub(vector<Member> &vector_records){
 	records.close();
 }
 
-int authentication(string swipe){
-	vector<Member> club;
-	string run = "1";
-
-	// Actual authentication
-
-
-
-
-	// Actual authintication
-		populateClub(club);
-		getline(cin, swipe);
-		log(swipe, isValid(club, swipe));
-
-		// for (int i = 0; i < club.size(); i++){
-		// 	club[i].printInformation();
-		// }
-
-		// Reset the input for security and keep "run" for exit purpose.
-		run = swipeReader;
-		swipeReader = "";
-
-}
-
-
 int main(){
 
-  while(1){
-    ifstream myfile("/dev/tty1");
-    string line;
-    while (! myfile.eof() ){
-      authentication(line);
-      getline (myfile,line);
-    //   cout << i << ":" << r << ":" << line << endl;
-    //   i++;
-    }
-    // r++;
-    myfile.close();
-  }
+	// Actual authintication
+	vector<Member> club;
+
+	while(1){
+
+		ifstream myfile("/dev/tty1");
+		string line;
+
+		while (! myfile.eof() ){
+			populateClub(club);
+			getline (myfile,line);
+			log(swipe, isValid(club, swipe));
+
+			// Reset the input for security and keep "run" for exit purpose.
+			run = swipe;
+			swipe = "";
+		}
+
+		myfile.close();
+	}
 }

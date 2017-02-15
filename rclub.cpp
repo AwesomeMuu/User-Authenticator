@@ -3,6 +3,10 @@
 #include <fstream>
 #include <string>
 #include <ctime>
+#include <stdlib.h>
+#include "GPIOClass.h"
+#include <unistd.h>
+
 //using robotics_members.txt file to save the members of the robotics team.
 using namespace std;
 
@@ -100,6 +104,23 @@ int main(){
 
 	string swipeReader = "";
 	string run = "1";
+
+
+    GPIOClass* gpio4 = new GPIOClass("20"); //create new GPIO object to be attached to  GPIO4
+
+    gpio4->export_gpio(); //export GPIO17
+
+
+    gpio4->setdir_gpio("out"); // GPIO17 set to input
+
+	while(1){
+	gpio4->setval_gpio("1");
+	usleep(500000);
+	gpio4->setval_gpio("0");
+	usleep(500000);
+
+	}
+
 
 	// Actual authintication
 	while(run != "0"){

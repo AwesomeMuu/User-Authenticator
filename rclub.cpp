@@ -127,12 +127,14 @@ int main(){
 		string swipe;
 
 		while (! myfile.eof() ){
-			populateClub(club);
+//			populateClub(club);
+
 //			for (size_t i = 0; i < club.size(); i++) {
 //			std::cout << i << "# populate: " << club[i].getMemberName() << " && " << club[i].getMemberId() << '\n';
 //			}
 
 			getline (myfile,swipe);
+			populateClub(club);
 			log(swipe, isValid(club, swipe));
 			swipe = "";
 		}

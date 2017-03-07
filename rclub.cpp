@@ -61,7 +61,7 @@ bool isValid(vector<Member> &vector_records, string input){
 			gpio->export_gpio();
 			gpio->setdir_gpio("out");
 			gpio->setval_gpio("1");
-			usleep(2000000);
+			usleep(3000000);
 			gpio->setval_gpio("0");
 
 			delete gpio;
